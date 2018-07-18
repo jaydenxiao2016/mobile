@@ -96,7 +96,7 @@ class CustomView extends Component {
             extra="添加"
             onExtraClick={this.addTodo}
           >
-            输入代办事项
+            输入待办事项
           </InputItem>
         </div>
 
