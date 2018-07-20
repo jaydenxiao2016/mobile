@@ -266,8 +266,8 @@ module.exports = {
                             flexbox: "no-2009"
                           }),
                           px2viewport({
-                            viewportWidth: 720,
-                            viewportHeight: 1280,
+                            viewportWidth: 750,
+                            viewportHeight: 1334,
                             unitPrecision: 3,
                             viewportUnit: "vw",
                             selectorBlackList: ["am-", /^body/],
