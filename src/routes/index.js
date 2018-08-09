@@ -28,6 +28,8 @@ const loading = ({ error, pastDelay }) => {
   );
 };
 
+const getRoutePath = path => path.split("/:")[0];
+
 const getCustomView = path => {
   return Loadable({
     loader: () => import("../views" + path),
@@ -46,13 +48,17 @@ for (let key in RouterList) {
         <Route
           key={key + "_" + jKey}
           path={jItem}
-          component={getCustomView(jItem)}
+          component={getCustomView(getRoutePath(jItem))}
         />
       );
     }
   } else {
     RouteList.push(
-      <Route key={key} path={item} component={getCustomView(item)} />
+      <Route
+        key={key}
+        path={item}
+        component={getCustomView(getRoutePath(item))}
+      />
     );
   }
 }
