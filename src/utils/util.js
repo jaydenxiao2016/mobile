@@ -1,6 +1,25 @@
 import { Toast } from "antd-mobile";
 
 import CONSTANT from "./constant";
+import Service from "../server/service";
+
+const getCodeUrl = () => {
+  window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
+    CONSTANT.APPID
+  }&redirect_uri=${encodeURIComponent(
+    window.location.href
+  )}&response_type=code&scope=snsapi_base&#wechat_redirect`;
+};
+
+/**
+ * 检测 openId
+ */
+const checkOpenId = () => {
+  const openId = util.getOpenId(),
+    code = util.parseExtra("code");
+  if (code) Service.setOpenId(code);
+  else if (!openId) getCodeUrl();
+};
 
 /**
  * 工具类
@@ -20,6 +39,16 @@ const util = {
       path += arr[i] + "/";
     }
     return path.slice(0, path.length - 1);
+  },
+  // 解析location.href
+  parseExtra: key => {
+    const str = decodeURIComponent(document.location.href);
+    const reg = new RegExp(key + "=(\\w+)", "i");
+    let result = reg.exec(str);
+    if (!result)
+      result = new RegExp(key + "=([\u4e00-\u9fa5\\w]+)", "i").exec(str);
+    result && (result = result[1]);
+    return result;
   },
   /**
    * 设置页面标题
@@ -120,7 +149,109 @@ const util = {
       num += el.offsetTop;
     }
     return num;
-  }
+  },
+  /**
+   * 判断是否为微信客户端
+   */
+  isWeixin: () => {
+    return window.navigator.userAgent
+      .toLocaleUpperCase()
+      .includes("MICROMESSENGER");
+  },
+  /**
+   * 获取随机字符串（10-32位）
+   */
+  getNonceStr: (minLen = 10, maxLen = 32) => {
+    let nonceStr = "";
+    const arr = [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z",
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X",
+        "Y",
+        "Z"
+      ],
+      randomLen = Math.round(Math.random() * (maxLen - minLen)) + minLen;
+    for (let i = 0; i < randomLen; i++) {
+      const randomPos = Math.round(Math.random() * (arr.length - 1));
+      nonceStr += arr[randomPos];
+    }
+    return nonceStr;
+  },
+
+  /**
+   * 微信公众号唯一标识 openId
+   */
+  getOpenId: () => {
+    if (util.isWeixin()) {
+      return util.storage.get(CONSTANT.STORAGE_KEY_OPENID);
+    } else {
+      let openId = util.storage.get(CONSTANT.STORAGE_KEY_OPENID);
+      if (openId) return openId;
+      else {
+        openId = util.getNonceStr(22, 22);
+        util.storage.put(CONSTANT.STORAGE_KEY_OPENID, openId);
+        return openId;
+      }
+    }
+  },
+  checkOpenId
 };
 
 export default util;

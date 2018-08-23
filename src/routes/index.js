@@ -8,6 +8,9 @@ import {
 
 import Loadable from "react-loadable";
 import RouterList from "./router_list";
+import Util from "../utils/util";
+
+Util.checkOpenId();
 
 const loading = ({ error, pastDelay }) => {
   if (error) {

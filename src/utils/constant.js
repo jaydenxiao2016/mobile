@@ -4,8 +4,6 @@ export default {
   STORAGE_KEY: "mobile",
   STORAGE_KEY_USERINFO: "userInfo",
   STORAGE_KEY_USERNAME: "username",
-  STORAGE_KEY_PASSWORD: "password",
-  STORAGE_KEY_JWT: "_jwt",
-  STORAGE_KEY_FILE_DOWNLOAD: "file_download",
-  STORAGE_KEY_FILE_UPLOAD: "file_upload"
+  APPID: "",
+  STORAGE_KEY_OPENID: "openId"
 };
