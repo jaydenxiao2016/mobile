@@ -1,3 +1,13 @@
+const toString = Object.prototype.toString;
+
+/**
+ * 判断是否为日期类型
+ * @param {*} parameter
+ */
+const isDate = parameter => {
+  return toString.call(parameter) === "[object Date]";
+};
+
 export default {
   /**
    * 时间格式化
