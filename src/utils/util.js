@@ -251,7 +251,15 @@ const util = {
       }
     }
   },
-  checkOpenId
+  checkOpenId,
+  login: () => {
+    util.storage.put(CONSTANT.LOGIN.STATUS, CONSTANT.LOGIN.IS_LOGGED);
+    window.location.reload();
+  },
+  logout: () => {
+    util.storage.clear();
+    window.location.reload();
+  }
 };
 
 export default util;

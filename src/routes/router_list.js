@@ -1,6 +1,7 @@
 const routerList = {
   navigation: "/navigation",
-  todo: "/todo"
+  todo: "/todo",
+  private: "/private"
 };
 
 export default routerList;

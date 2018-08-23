@@ -1,6 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
 import RouterList from "../routes/router_list";
+import CONSTANT from "../utils/constant";
+import Util from "../utils/util";
 
 const data = [];
 
@@ -34,6 +37,16 @@ const navigation = props => {
         backgroundColor: "#8b8"
       }}
     >
+      <div className="login-info">
+        {Util.storage.get(CONSTANT.LOGIN.STATUS) ===
+        CONSTANT.LOGIN.IS_LOGGED ? (
+          <div>
+            已登录 <button onClick={Util.logout}>退出</button>
+          </div>
+        ) : (
+          <button onClick={Util.login}>登录</button>
+        )}
+      </div>
       {LinkList}
     </div>
   );
